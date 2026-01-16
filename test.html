@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Test POST to Backend</title>
+</head>
+
+<body>
+    <h2>Send Sample Mood Data</h2>
+
+    <!-- Button to trigger sending data -->
+    <button onclick="saveData()">Save Sample Data</button>
+
+    <script>
+        // Function to send POST request
+        function saveData() {
+            fetch("http://localhost:3000/api/save", { // Backend URL
+                    method: "POST", // Must be POST
+                    headers: {
+                        "Content-Type": "application/json"
+                    }, // Tell backend it's JSON
+                    body: JSON.stringify({ // The data we send
+                        date: new Date().toLocaleDateString(),
+                        mood: "Happy",
+                        water: 5,
+                        journal: "Feeling good today!"
+                    })
+                })
+                .then(res => res.json()) // Convert response to JSON
+                .then(data => alert(JSON.stringify(data))) // Show the response in a popup
+                .catch(err => console.error(err)); // Show error in console if any
+        }
+    </script>
+</body>
+
+</html>

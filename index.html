@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Mental Wellness Tracker</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f2f6ff;
+            padding: 40px;
+        }
+        
+        .container {
+            max-width: 500px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        label {
+            margin-top: 15px;
+            display: block;
+            font-weight: bold;
+        }
+        
+        select,
+        input,
+        textarea {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+        }
+        
+        button {
+            margin-top: 20px;
+            width: 100%;
+            padding: 10px;
+            background: #5a67d8;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        button:hover {
+            background: #434190;
+        }
+        
+        .entry {
+            background: #eef2ff;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h2>🧠 Mental Wellness Tracker</h2>
+
+        <label for="mood">Mood</label>
+        <select id="mood">
+        <option value="Happy">Happy 😊</option>
+        <option value="Okay">Okay 🙂</option>
+        <option value="Sad">Sad 😔</option>
+        <option value="Stressed">Stressed 😣</option>
+    </select>
+
+        <label for="water">Water Intake (glasses)</label>
+        <input type="number" id="water" min="0" placeholder="e.g. 5">
+
+        <label for="journal">Journal</label>
+        <textarea id="journal" rows="4" placeholder="Write how you feel..."></textarea>
+
+        <button onclick="saveData()">Save Today’s Data</button>
+
+        <h3 style="margin-top:30px;">📊 Saved Entries</h3>
+        <div id="entries"></div>
+    </div>
+
+    <script>
+        function saveData() {
+            const data = {
+                date: new Date().toLocaleDateString(),
+                mood: document.getElementById("mood").value,
+                water: document.getElementById("water").value,
+                journal: document.getElementById("journal").value
+            };
+
+            fetch("http://localhost:3000/api/save", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(response => response.json())
+                .then(result => {
+                    alert(result.message);
+                    loadData();
+                })
+                .catch(error => {
+                    console.error("POST error:", error);
+                    alert("Failed to save data");
+                });
+        }
+
+        function loadData() {
+            fetch("http://localhost:3000/api/data")
+                .then(response => response.json())
+                .then(data => {
+                    const entriesDiv = document.getElementById("entries");
+                    entriesDiv.innerHTML = "";
+
+                    data.forEach(item => {
+                        entriesDiv.innerHTML += `
+                <div class="entry">
+                    <strong>${item.date}</strong><br>
+                    Mood: ${item.mood}<br>
+                    Water: ${item.water}<br>
+                    Journal: ${item.journal}
+                </div>
+            `;
+                    });
+                });
+        }
+
+        // Load data when page opens
+        loadData();
+    </script>
+
+</body>
+
+</html>

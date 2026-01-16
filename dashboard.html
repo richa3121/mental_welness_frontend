@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Serenity Dashboard 🌿</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</head>
+
+<body>
+    <div class="container">
+
+        <header>
+            <h1>Serenity Wellness Tracker 🌿</h1>
+            <p>Your calm space to track and improve mental health</p>
+        </header>
+
+        <!-- Mood Section -->
+        <section class="card" id="moodSection">
+            <h2>How are you feeling today? <span id="moodEmoji" class="emoji">😐</span></h2>
+            <input type="range" min="1" max="5" value="3" id="moodSlider" oninput="updateMood()">
+            <div id="moodDisplay" class="moodDisplay">Calm</div>
+            <div class="progressBar">
+                <div id="streakProgress"></div>
+            </div>
+            <small id="streakText"></small>
+        </section>
+
+        <!-- Mood Calendar -->
+        <section class="card">
+            <h2>Mood Calendar 📅</h2>
+            <div id="moodCalendar" class="calendarGrid"></div>
+        </section>
+
+        <!-- Achievements -->
+        <section class="card">
+            <h2>Achievements 🏆</h2>
+            <div id="achievements" class="badgesContainer"></div>
+        </section>
+
+        <!-- Daily Tip -->
+        <section class="card" id="tipsSection">
+            <h2>Daily Tip 🌸 <i class="fas fa-lightbulb"></i></h2>
+            <div id="dailyTip">Take a deep breath and relax.</div>
+        </section>
+
+        <!-- Journal Section -->
+        <section class="card">
+            <h2>Journal ✍️ <i class="fas fa-book-open"></i></h2>
+            <textarea id="journal" rows="5" placeholder="Write your thoughts..."></textarea>
+            <div class="journal-prompts">
+                <button onclick="insertPrompt('What made you smile today?')">😊 Smile Prompt</button>
+                <button onclick="insertPrompt('One thing I am grateful for...')">🙏 Gratitude Prompt</button>
+            </div>
+        </section>
+
+        <!-- Water Section -->
+        <section class="card">
+            <h2>Water Intake 💧 <i class="fas fa-tint"></i></h2>
+            <div class="waterTracker">
+                <input type="number" id="water" value="0" min="0">
+                <button onclick="incrementWater()">💧 Add 1</button>
+                <div class="waterEmoji">🥤</div>
+            </div>
+        </section>
+
+        <!-- Daily Challenges -->
+        <section class="card">
+            <h2>Daily Challenges 🎯</h2>
+            <div class="dailyChallenges">
+                <label><input type="checkbox" id="challenge1"> Drink 8 glasses of water 💦</label><br>
+                <label><input type="checkbox" id="challenge2"> Write journal entry ✍️</label><br>
+                <label><input type="checkbox" id="challenge3"> Take 5 min meditation 🧘</label>
+            </div>
+        </section>
+
+        <!-- Meditation -->
+        <section class="card">
+            <h2>Guided Meditation 🧘‍♂️</h2>
+            <button onclick="startMeditation()">Start 1-min Meditation</button>
+            <div id="meditationCircle"></div>
+            <div id="meditationTimer"></div>
+        </section>
+
+        <!-- Weekly Trends -->
+        <section class="card">
+            <h2>Weekly Trends 📊</h2>
+            <canvas id="moodChart" height="120"></canvas>
+            <canvas id="waterChart" height="120"></canvas>
+        </section>
+
+        <!-- Save Button -->
+        <button class="saveButton" onclick="saveData()">💾 Save Today’s Data</button>
+        <div id="toast" class="toast">Saved successfully! ✅</div>
+
+        <!-- Confetti Canvas -->
+        <canvas id="confettiCanvas" class="confettiCanvas"></canvas>
+
+        <!-- Emergency Helpline Modal -->
+        <div id="helplineModal" class="modal">
+            <div class="modalContent">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <h2>Emergency Helplines 🚨</h2>
+                <p>If you feel extremely low or unsafe, contact:</p>
+                <ul>
+                    <li>National Helpline: 1800-123-4567</li>
+                    <li>24/7 Mental Health Line: 1800-234-5678</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Night Mode -->
+        <div class="nightModeToggle">
+            <label>
+        <input type="checkbox" id="nightMode" onchange="toggleNightMode()">
+        Night Mode 🌙
+      </label>
+        </div>
+
+    </div>
+    <script src="js/dashboard.js"></script>
+</body>
+
+</html>
